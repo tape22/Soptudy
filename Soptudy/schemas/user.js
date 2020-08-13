@@ -15,4 +15,4 @@ const userSchema = new Schema({
     bound: Number,
 });
 
-module.exports = mongoose.model('user',userSchema)
+module.exports = mongoose.model('User',userSchema)

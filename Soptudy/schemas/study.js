@@ -38,7 +38,7 @@ const studySchema = new Schema({
     owner:{
         type: ObjectId,
         required: true,
-        ref:'user',s
+        ref:'User',
     },
     password:{
         type: String,
@@ -46,7 +46,7 @@ const studySchema = new Schema({
     },
     members:[{
         type:ObjectId,
-        ref:'user',
+        ref:'User',
     }],
     status:{
         type: Number,
@@ -54,4 +54,4 @@ const studySchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('study',studySchema);
+module.exports = mongoose.model('Study',studySchema);

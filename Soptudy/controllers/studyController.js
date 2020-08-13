@@ -1,28 +1,35 @@
-
+const studyModel = require('../models/study');
 
 const study = {
-    //전체-0, 분야별-1,2,3,4,5 스터디 조회
-    home: async (req, res) => {
-        // 파라미터로 받은 todoId를 변수에 담는다. (localhost:3000/todolist/5e6e4743ea803ad69a8f82b8) 
-        const todoId = req.params.todoId;
-        // Todo(models/todolist.js) 모듈의 find()함수에 todoId를 인자로 넣어 실행한다.
-        const todo = await studyModel.find(todoId);
+    readAll: async (req, res) => {
+        const todos = await Todo.findAll();
         try {
-            // 만약, 결과값이 존재하지 않는다면 존재하지 않는 글을 보려 시도한 것.
-            if (!todo.length) 
-                return res.status(404).send({ err: 'Todo not found' });
-            // 존재한다면 find successfully와 함께 성공한 객체 출력
-            res.send(`find successfully: ${todo}`);
+            if (!todos.length)
+                return res.status(404).send({
+                    err: 'Todo not found'
+                });
+            res.send(`find successfully: ${todos}`);
         } catch (err) {
-            // 서버 오류 발생시 500 status 반환
             res.status(500).send(err)
         }
     },
 
-
-    // todo 모듈 중 read 비동기 함수
+    // home : 전체-0, 분야별-1,2,3,4,5 스터디 조회
 
     // register: 스터디 등록
+    register: async(req,res)=>{
+        const { icon, title, category, headCount, startDate, endDate, intro, content, owner, password, status} = req.body;
+        const result = await studyModel.addStudy({ icon, title, category, headCount, startDate, endDate, intro, content, owner, password, status})
+        try {
+            if (!todos.length)
+                return res.status(404).send({
+                    err: 'Todo not found'
+                });
+            res.send(`find successfully: ${todos}`);
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    }
 
     // getApply: 특정 스터디 정보 조회  (파람필요)
 
