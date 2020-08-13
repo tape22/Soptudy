@@ -13,6 +13,8 @@ const userSchema = new Schema({
     },
     part: String,
     bound: Number,
+},{
+    versionKey: false
 });
 
 module.exports = mongoose.model('User',userSchema)

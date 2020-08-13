@@ -5,7 +5,7 @@ module.exports = () => {
         if (process.env.NODE_ENV != 'production') {
             mongoose.set('debug', true)
         }
-        mongoose.connect('mongodb://root:password@localhost:27017/admin', {
+        mongoose.connect('mongodb+srv://soptudy:soptudy4ever@cluster0.mppl5.mongodb.net/admin?retryWrites=true&w=majority', {
             dbName: 'soptudy',
         }, (error) => {
             if (error) {

@@ -21,11 +21,11 @@ const studySchema = new Schema({
     },
     startDate:{
         type: Date,
-        required:true,
+        //required:true,
     },
     endDate:{
         type: Date,
-        required:true,
+        //required:true,
     },
     intro:{
         type: String,
@@ -51,7 +51,9 @@ const studySchema = new Schema({
     status:{
         type: Number,
         required:true
-    },
+    }, 
+},{
+    versionKey: false
 });
 
 module.exports = mongoose.model('Study',studySchema);

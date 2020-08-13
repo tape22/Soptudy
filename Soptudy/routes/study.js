@@ -11,11 +11,15 @@ router.post('/register', studyContoller.register)
 
 //스터디 신청 페이지
 router.get('/apply/:studyIdx', studyContoller.getApply)
-roudter.post('/apply', studyContoller.postApply)
+router.post('/apply', studyContoller.postApply)
 
 //스터디 수정 페이지
 router.get('/edit/:studyIdx', studyContoller.getEdit)
 router.put('/edit/:studyIdx', studyContoller.putEdit)
 router.post('/passwd/:studyIdx', studyContoller.passwd)
 
-module.exports=router;
+//임시 테스트
+router.post('/user', studyContoller.user)
+
+
+module.exports = router;
