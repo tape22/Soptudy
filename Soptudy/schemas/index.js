@@ -1,13 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const db = require('../config/dbInfo.json');
 
 module.exports = () => {
     const connect = () => {
         if (process.env.NODE_ENV != 'production') {
             mongoose.set('debug', true)
         }
-        mongoose.connect('mongodb+srv://soptudy:soptudy4ever@cluster0.mppl5.mongodb.net/admin?retryWrites=true&w=majority', {
-            dbName: 'soptudy',
-        }, (error) => {
+        mongoose.set('useCreateIndex', true);
+        mongoose.connect(db.host, {useNewUrlParser:true, useUnifiedTopology: true}, (error) => {
             if (error) {
                 console.log('몽고디비 연결 에러', error);
             } else {
