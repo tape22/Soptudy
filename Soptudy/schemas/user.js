@@ -6,7 +6,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    contact:{
+    phoneNumber:{
         type: String,
         required: true,
         unique: true,
