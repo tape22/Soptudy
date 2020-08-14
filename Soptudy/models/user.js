@@ -1,14 +1,24 @@
 const User = require('../schemas/user')
 
 const user = {
-    //연락처로 유저가 존재하는지 확인
-    findUser: (contact) => {
-        return User.findOne({contact});
+    findUser: async (phoneNumber) => {
+        try {
+            return User.findOne({
+                phoneNumber
+            });
+        } catch (err) {
+            console.log('findUser Err')
+            throw err;
+        }
     },
-    //유저 추가
-    addUser: (userInfo) => {
-        const user = new User(userInfo);
-        return user.save();
+    addUser: async (userInfo) => {
+        try {
+            const user = new User(userInfo);
+            return user.save();
+        } catch (err) {
+            console.log('addUser Error');
+            throw err;
+        }
     }
 }
 
