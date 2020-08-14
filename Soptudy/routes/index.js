@@ -1,22 +1,8 @@
 var express = require('express')
-const studyContoller = require('../controllers/studyController')
+const studyContoller = require('../controllers/studyController');
+const { routes } = require('../app');
 var router = express.Router();
 
-
-// //전체, 태그별 스터디 조회 페이지
-router.get('/home/:categoryIdx', studyContoller.home)
-
-// //스터디 등록 페이지
-// router.post('/register', studyContoller.register)
-
-// //스터디 신청 페이지
-// router.get('/apply/:studyIdx', studyContoller.getApply)
-router.post('/apply', studyContoller.postApply)
-
-// //스터디 수정 페이지
-// router.get('/edit/:studyIdx', studyContoller.getEdit)
-// router.put('/edit/:studyIdx', studyContoller.putEdit)
-// router.post('/passwd/:studyIdx', studyContoller.passwd)
-
+router.use('/study',require('./study'));
 
 module.exports = router;
