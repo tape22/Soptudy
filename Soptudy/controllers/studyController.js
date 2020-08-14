@@ -3,22 +3,37 @@ const studyModel = require('../models/study')
 
 const study = {
     // home : 전체-0, 분야별-1,2,3,4,5 스터디 조회
-    home: async (req, res) => {
-        const categoryIdx = req.params.categoryIdx;
-        let result;
+    getStudies: async (req, res) => {
+        const category = req.params.category;
+        let studyInfo;
         try {
-            if (categoryIdx != 0)
-                result = await studyModel.searchStudy(categoryIdx)
-            else
-                result = await studyModel.searchAllStudy()
-            res.status(200).send(result);
+            if (category != 0) {
+                studyInfo = await studyModel.searchStudy(category);
+            } else {
+                studyInfo = await studyModel.searchAllStudy();
+            }
+
+            console.log(studyInfo);
+
+
+
+            return res.status(200).json({
+                message: "Success",
+                data: studyInfo
+            });
+
         } catch (err) {
-            res.status(500).send(err)
+            console.log('home Err: ', err);
+            return res.status(500).json({
+                message: "Server Error",
+                err: err
+            });
         }
     },
 
-    // //register: 스터디 등록
-    // register: async (req, res) => {
+    //registerStudy: 스터디 등록
+    //registerStudy: async (req, res) => {
+    //     const {}= req.body;
     //     try {
     //         const result = await studyModel.addStudy(req.body)
     //         res.status(200).send(result);
@@ -27,41 +42,95 @@ const study = {
     //     }
     // },
 
-    // getApply: 특정 스터디 정보 조회  (파람필요)
-
-
-    // postApply: 특정 스터디 신청 (파람필요)
-    postApply: async (req, res) => {
-        const studyId = req.body.studyId;
-        const contact = req.body.contact;
-        let userId;
+    // getStudyDetail: 특정 스터디 정보 조회  (파람필요)
+    getStudyDetail: async (req, res) => {
+        const studyId = req.params.studyId;
         try {
-            const user = await userModel.findUser(contact);
-            //유저가 없는 경우 add후 해당 유저의 id값 반환
-            if (user != null) {
-                userId = user._id
-            } else { 
-                const result = await userModel.addUser(req.body);
-                userId = result._id
-            }
+            const result = await studyModel.getOneStudy(studyId);
+            return res.status(200).json({
+                message: "Success",
+                data: result
+            });
         } catch (err) {
-            res.status(500).send(err);
-        }
-
-        try {
-            const result = await studyModel.addMember(studyId,userId)
-            res.status(200).send(result);
-        } catch (err) {
-            res.status(500).send(err)
+            console.log('getApply Err: ', err);
+            return res.status(500).json({
+                message: "Server Error",
+                err: err
+            });
         }
     },
 
-    // getEdit: 특정 스터디 정보 조회(비밀번호 포함) (파람 필요)
 
-    // putEdit: 특정 스터디 정보 수정 (파람 필요)
+    // applyStudy: 특정 스터디 신청
+    applyStudy: async (req, res) => {
+        const {
+            studyId,
+            name,
+            phoneNumber,
+            part,
+            bound,
+        } = req.body;
 
-    // passwd: 특정스터디 비밀번호 확인 (파람필요)
+        try {
+            if (!studyId || !name || !phoneNumber) {
+                console.log('postApply null value');
+                return res.status(400).json({
+                    message: "Required: studyId, name, phoneNumber"
+                });
+            }
 
+            let user = await userModel.findUser(phoneNumber);
+            if (!user) {
+                user = await userModel.addUser({studyId,name,phoneNumber,part,bound});
+            }
+
+            const isExistMember =  await studyModel.findMember(studyId,user._id);
+            if(isExistMember !== null){
+                return res.status(400).json({
+                    message: '이미 등록된 멤버입니다.'
+                });
+            }
+
+            const result = await studyModel.addMember(studyId, user._id)
+            return res.status(200).json({
+                message: "Success",
+                data: result
+            });
+
+        } catch (err) {
+            console.log('postApply Err : ', err)
+            return res.status(500).json({
+                message: "Server Error",
+                err: err
+            })
+        }
+    },
+
+    //editStudyDetail: 특정 스터디 정보 수정 (파람 필요)
+
+    //checkPassword: 특정스터디 비밀번호 확인
+    checkPassword: async (req,res) => {
+        const { studyId, password }= req.body;
+        try {
+            const result = await studyModel.checkPassword(studyId,password);
+
+            if( result === false ){
+                return res.status(400).json({
+                    message: "fail"
+                });
+            }else{
+                return res.status(200).json({
+                    message: "Success"
+                });
+            }
+        } catch (err) {
+            console.log('password Err: ', err);
+            return res.status(500).json({
+                message: "Server Error",
+                err: err
+            });
+        }
+    }
 }
 
 module.exports = study
