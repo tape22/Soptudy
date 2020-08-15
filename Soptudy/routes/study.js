@@ -8,7 +8,7 @@ var router = express.Router();
 router.get('/:category', studyContoller.getStudies)
 
 //스터디 등록
-// router.post('/register', studyContoller.registerStudy)
+router.post('/register', studyContoller.registerStudy)
 
 //스터디 상세 정보 조회
 router.get('/detail/:studyId', studyContoller.getStudyDetail)
@@ -17,7 +17,7 @@ router.get('/detail/:studyId', studyContoller.getStudyDetail)
 router.post('/apply', studyContoller.applyStudy)
 
 //스터디 정보 수정
-// router.put('/edit/:studyId', studyContoller.editStudyDetail)
+router.put('/edit/:studyId', studyContoller.editStudy)
 
 //스터디 비밀번호 확인
 router.post('/password', studyContoller.checkPassword)
