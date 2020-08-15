@@ -11,7 +11,10 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
-    part: String,
+    part:{
+        type: String,
+        required: true,
+    },
     bound: Number,
 },{
     versionKey: false
