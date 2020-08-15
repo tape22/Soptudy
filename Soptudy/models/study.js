@@ -1,5 +1,6 @@
 const User = require('../schemas/user')
 const Study = require('../schemas/study')
+const ObjectId = require('mongoose').Types.ObjectId
 
 const study = {
     addStudy: async (studyInfo) => {
@@ -11,24 +12,22 @@ const study = {
             throw err;
         }
     },
-    getOneStudy: async (studyId) => {
+    modifyStudy: async (studyId,modifiedStudyInfo) => {
         try {
-            return Study.findOne({
+            return Study.findOneAndUpdate({
                 _id: studyId
-            }, {
-                password: false
-            }).populate('owner').populate('members');
+            }, 
+                modifiedStudyInfo
+            , {
+                new: true
+            });
         } catch (err) {
-            console.log('getOneStudy Err');
+            console.log('modifyStudy Err');
             throw err;
         }
     },
-    searchStudy: async (category) => {
+    getOneStudy: async (studyId) => {
         try {
-            /*return Study.find({
-                category: categoryIdx
-            },{_id: true, icon: true, headCount: true, category: true, title: true}).populate('owner','name');*/
-
             const studies = await Study.aggregate([{
                     $project: {
                         _id: 1,
@@ -36,21 +35,70 @@ const study = {
                         headCount: 1,
                         category: 1,
                         title: 1,
-                        owner: 1,
+                        intro: 1,
+                        content: 1,
+                        leader: 1,
+                        status: 1,
+                        members: 1,
+                        schedule: 1,
+                        location: 1,
                         memberCount: {
                             $size: "$members"
                         }
                     }
                 },
                 {
-                    $match:{
+                    $match: {
+                        _id: ObjectId(studyId)
+                    }
+                }
+            ]);
+
+            await User.populate(studies, [{
+                path: "leader",
+                select: {
+                    _id: 0,
+                    name: 1,
+                    phoneNumber: 1,
+                    part: 1
+                }
+            }, {
+                path: "members",
+            }]);
+
+            return studies[0];
+
+
+        } catch (err) {
+            console.log('getOneStudy Err');
+            throw err;
+        }
+    },
+    searchStudy: async (category) => {
+        try {
+            const studies = await Study.aggregate([{
+                    $project: {
+                        _id: 1,
+                        icon: 1,
+                        headCount: 1,
+                        category: 1,
+                        title: 1,
+                        leader: 1,
+                        status: 1,
+                        memberCount: {
+                            $size: "$members"
+                        }
+                    }
+                },
+                {
+                    $match: {
                         category: Number(category)
                     }
                 }
             ]);
 
             await User.populate(studies, {
-                path: "owner",
+                path: "leader",
                 select: {
                     _id: 0,
                     name: 1
@@ -73,22 +121,22 @@ const study = {
                     headCount: 1,
                     category: 1,
                     title: 1,
-                    owner: 1,
+                    leader: 1,
                     memberCount: {
                         $size: "$members"
                     }
                 }
-            }
-        ]);
+            }]);
 
-        await User.populate(studies, {
-            path: "owner",
-            select: {
-                _id: 0,
-                name: 1
-            }
-        });
-        return studies;
+            await User.populate(studies, {
+                path: "leader",
+                select: {
+                    _id: 0,
+                    name: 1
+                }
+            });
+
+            return studies;
 
         } catch (err) {
             console.log('searchAllStudy Err')
@@ -138,6 +186,47 @@ const study = {
             }
         } catch (err) {
             console.log('getPasswd Err');
+            throw err;
+        }
+    },
+    isfullHeadCount: async (studyId) => {
+        try {
+            const result = await Study.aggregate([{
+                $project: {
+                    headCount:1,
+                    memberCount: {
+                        $size: "$members"
+                    }
+                }
+            }, {
+                $match: {
+                    _id: ObjectId(studyId)
+                }
+            }]);
+
+            if(result[0].memberCount >= result[0].headCount){
+                return true;
+            }else{
+                return false;
+            }
+
+        } catch (err) {
+            console.log('searchAllStudy Err')
+            throw err;
+        }
+
+    },
+    modifyStudyStatus: async (studyId,modifiedStatus) => {
+        try {
+            return Study.findOneAndUpdate({
+                _id: studyId
+            }, {
+                status: Boolean(modifiedStatus)
+            }, {
+                new: true
+            });
+        } catch (err) {
+            console.log('closeStudy Err');
             throw err;
         }
     }
