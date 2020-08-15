@@ -7,25 +7,18 @@ const studySchema = new Schema({
         type: String,
         required : true,
     },
-    title:{
-        type: String,
-        required: true,
-    },
     category:{
         type: Number,
         required: true,
     },
-    headCount:{
-        type:Number,
-        required:true,
+    leader:{
+        type: ObjectId,
+        required: true,
+        ref:'User',
     },
-    startDate:{
-        type: Date,
-        //required:true,
-    },
-    endDate:{
-        type: Date,
-        //required:true,
+    title:{
+        type: String,
+        required: true,
     },
     intro:{
         type: String,
@@ -35,23 +28,30 @@ const studySchema = new Schema({
         type: String,
         required: true,
     },
-    owner:{
-        type: ObjectId,
+    schedule:{
+        type: String,
         required: true,
-        ref:'User',
+    },
+    location:{
+        type: String,
+        required: true,
+    },
+    headCount:{
+        type:Number,
+        required:true,
     },
     password:{
         type: String,
         required: true,       
     },
+    status:{
+        type: Boolean,
+        required:true,
+    }, 
     members:[{
         type:ObjectId,
         ref:'User',
     }],
-    status:{
-        type: Number,
-        required:true
-    }, 
 },{
     versionKey: false
 });
