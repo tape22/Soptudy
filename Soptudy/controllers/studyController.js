@@ -165,7 +165,7 @@ const study = {
     },
 
     //editStudyDetail: 특정 스터디 정보 수정 (파람 필요)
-    editStudyDetail: async (req, res) => {
+    editStudy: async (req, res) => {
         const studyId = req.params.studyId;
         const {
             icon,
