@@ -25,6 +25,5 @@ module.exports = () => {
         connect();
     });
 
-    require('./user');
     require('./study');
 };
