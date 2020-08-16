@@ -1,4 +1,3 @@
-const User = require('../schemas/user')
 const Study = require('../schemas/study')
 const encrypt = require('../modules/crypto');
 const ObjectId = require('mongoose').Types.ObjectId
@@ -15,13 +14,7 @@ const study = {
     },
     modifyStudy: async (studyId,modifiedStudyInfo) => {
         try {
-            return Study.findOneAndUpdate({
-                _id: studyId
-            }, 
-                modifiedStudyInfo
-            , {
-                new: true
-            });
+            return Study.findOneAndUpdate({_id: studyId}, modifiedStudyInfo, {new: true});
         } catch (err) {
             console.log('modifyStudy Err');
             throw err;
@@ -38,7 +31,9 @@ const study = {
                         title: 1,
                         intro: 1,
                         content: 1,
-                        leader: 1,
+                        leaderName: 1,
+                        leaderPhoneNumber: 1,
+                        leaderPart:1,
                         status: 1,
                         members: 1,
                         schedule: 1,
@@ -54,18 +49,6 @@ const study = {
                     }
                 }
             ]);
-
-            await User.populate(studies, [{
-                path: "leader",
-                select: {
-                    _id: 0,
-                    name: 1,
-                    phoneNumber: 1,
-                    part: 1
-                }
-            }, {
-                path: "members",
-            }]);
 
             return studies[0];
 
@@ -84,7 +67,7 @@ const study = {
                         headCount: 1,
                         category: 1,
                         title: 1,
-                        leader: 1,
+                        leaderName: 1,
                         status: 1,
                         memberCount: {
                             $size: "$members"
@@ -98,14 +81,6 @@ const study = {
                 }
             ]);
 
-            await User.populate(studies, {
-                path: "leader",
-                select: {
-                    _id: 0,
-                    name: 1
-                }
-            });
-
             return studies;
 
         } catch (err) {
@@ -115,14 +90,14 @@ const study = {
     },
     searchStudyAll: async () => {
         try {
-            const studies = await Study.aggregate([{
+            return await Study.aggregate([{
                 $project: {
                     _id: 1,
                     icon: 1,
                     headCount: 1,
                     category: 1,
                     title: 1,
-                    leader: 1,
+                    leaderName: 1,
                     status: 1,
                     memberCount: {
                         $size: "$members"
@@ -130,28 +105,18 @@ const study = {
                 }
             }]);
 
-            await User.populate(studies, {
-                path: "leader",
-                select: {
-                    _id: 0,
-                    name: 1
-                }
-            });
-
-            return studies;
-
         } catch (err) {
             console.log('searchStudyAll Err')
             throw err;
         }
     },
-    addMember: async (studyId, userId) => {
+    addMember: async (studyId, memberInfo) => {
         try {
             return Study.findOneAndUpdate({
                 _id: studyId
             }, {
                 $push: {
-                    members: userId
+                    members: memberInfo
                 }
             }, {
                 new: true
@@ -161,10 +126,10 @@ const study = {
             throw err;
         }
     },
-    findMember: async (studyId, userId) => {
+    findMember: async (studyId, phoneNumber) => {
         try {
-            return Study.findOne({
-                members: userId,
+            return await Study.findOne({
+                 members : { $elemMatch: { phoneNumber } } ,
                 _id: studyId
             });
         } catch (err) {
@@ -191,7 +156,7 @@ const study = {
             }
 
         } catch (err) {
-            console.log('checkPasswd Err');
+            console.log('checkPassword Err');
             throw err;
         }
     },
@@ -217,7 +182,7 @@ const study = {
             }
 
         } catch (err) {
-            console.log('searchStudyAll Err')
+            console.log('isfullHeadCount Err')
             throw err;
         }
 
@@ -232,7 +197,21 @@ const study = {
                 new: true
             });
         } catch (err) {
-            console.log('closeStudy Err');
+            console.log('modifyStudyStatus Err');
+            throw err;
+        }
+    },
+
+    getStudyStatus: async (studyId) => {
+        try {
+            const result = await Study.findOne({
+                _id: studyId
+            }, {
+                status: 1
+            });
+            return result.status;
+        } catch (err) {
+            console.log('modifyStudyStatus Err');
             throw err;
         }
     }
