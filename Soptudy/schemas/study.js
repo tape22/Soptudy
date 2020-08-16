@@ -44,7 +44,7 @@ const studySchema = new Schema({
         type: String,
         required: true,       
     },
-    sort:{
+    salt:{
         type: String,
         required: true,  
     },
