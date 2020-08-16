@@ -1,9 +1,9 @@
-const userModel = require('../models/user');
 const studyModel = require('../models/study');
 const encrypt = require('../modules/crypto');
 const util = require('../modules/util');
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
+const { getStudyStatus } = require('../models/study');
 const OPEN_STUDY = true;
 const CLOSE_STUDY = false;
 
@@ -35,17 +35,8 @@ const study = {
                 return res.status(statusCode.BAD_REQUEST).json(util.fail(statusCode.BAD_REQUEST,resMessage.NULL_VALUE));
             }
 
-            let user = await userModel.findUser(leaderPhoneNumber);
-            if (!user) {
-                user = await userModel.addUser({
-                    name : leaderName,
-                    phoneNumber: leaderPhoneNumber,
-                    part: leaderPart
-                });
-            }
-
             const { salt, hashed } = await encrypt.encrypt(password);
-            await studyModel.addStudy({ icon, category, leader: user._id, title, intro, content, schedule, location, headCount, password: hashed, salt: salt, status: OPEN_STUDY });
+            await studyModel.addStudy({ icon, category, leaderName, leaderPhoneNumber, leaderPart, title, intro, content, schedule, location, headCount, password: hashed, salt: salt, status: OPEN_STUDY });
             
             return res.status(statusCode.OK).json(util.success(statusCode.OK,resMessage.STUDY_REGISTER_SUCCESS));
         } catch (err) {
@@ -70,29 +61,25 @@ const study = {
     //특정 스터디 신청
     applyStudy: async (req, res) => {
         const { studyId, name, phoneNumber, part } = req.body;
-
         try {
-            if ( !studyId || !name || !phoneNumber ) {
+            if ( !studyId || !name || !phoneNumber || !part ) {
                 console.log('applyStudy: null value');
                 return res.status(statusCode.BAD_REQUEST).json(util.fail(statusCode.BAD_REQUEST,resMessage.NULL_VALUE));
             }
 
-            let user = await userModel.findUser(phoneNumber);
-            if (!user) {
-                user = await userModel.addUser({
-                    name,
-                    phoneNumber,
-                    part,
-                    bound
-                });
+            const status = await getStudyStatus(studyId);
+            if (status === CLOSE_STUDY){
+                console.log('applyStudy: Already closed study');
+                return res.status(statusCode.BAD_REQUEST).json(util.fail(statusCode.BAD_REQUEST,resMessage.STUDY_CLOSED_FAIL));  
             }
 
-            const isExistMember = await studyModel.findMember(studyId, user._id);
+            const isExistMember = await studyModel.findMember(studyId, phoneNumber);
             if (isExistMember !== null) {
                 return res.status(statusCode.BAD_REQUEST).json(util.fail(statusCode.BAD_REQUEST,resMessage.STUDY_APPLY_FAIL));
             }
 
-            await studyModel.addMember(studyId, user._id)
+            const memberInfo  = { name, phoneNumber, part };
+            await studyModel.addMember(studyId, memberInfo);
 
             if( await studyModel.isfullHeadCount(studyId) === true ){
                 await studyModel.modifyStudyStatus(studyId,CLOSE_STUDY);
@@ -116,16 +103,7 @@ const study = {
                 return res.status(statusCode.BAD_REQUEST).json(util.fail(statusCode.BAD_REQUEST,resMessage.NULL_VALUE));
             }
 
-            let user = await userModel.findUser(leaderPhoneNumber);
-            if (!user) {
-                user = await userModel.addUser({
-                    name : leaderName,
-                    phoneNumber: leaderPhoneNumber,
-                    part: leaderPart
-                });
-            }
-
-            await studyModel.modifyStudy(studyId, {icon, category, leader: user._id, title, intro, content, schedule, location, headCount})
+            await studyModel.modifyStudy(studyId, {icon, category, leaderName, leaderPhoneNumber, leaderPart, title, intro, content, schedule, location, headCount})
 
             if( await studyModel.isfullHeadCount(studyId) === true ){
                 await studyModel.modifyStudyStatus(studyId,CLOSE_STUDY);
