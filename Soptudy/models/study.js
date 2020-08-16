@@ -1,5 +1,6 @@
 const User = require('../schemas/user')
 const Study = require('../schemas/study')
+const encrypt = require('../modules/crypto');
 const ObjectId = require('mongoose').Types.ObjectId
 
 const study = {
@@ -26,7 +27,7 @@ const study = {
             throw err;
         }
     },
-    getOneStudy: async (studyId) => {
+    searchStudyDetail: async (studyId) => {
         try {
             const studies = await Study.aggregate([{
                     $project: {
@@ -70,11 +71,11 @@ const study = {
 
 
         } catch (err) {
-            console.log('getOneStudy Err');
+            console.log('searchStudyDetail Err');
             throw err;
         }
     },
-    searchStudy: async (category) => {
+    searchStudyByCategory: async (category) => {
         try {
             const studies = await Study.aggregate([{
                     $project: {
@@ -108,11 +109,11 @@ const study = {
             return studies;
 
         } catch (err) {
-            console.log('searchStudy Err')
+            console.log('searchStudyByCategory Err')
             throw err;
         }
     },
-    searchAllStudy: async () => {
+    searchStudyAll: async () => {
         try {
             const studies = await Study.aggregate([{
                 $project: {
@@ -122,6 +123,7 @@ const study = {
                     category: 1,
                     title: 1,
                     leader: 1,
+                    status: 1,
                     memberCount: {
                         $size: "$members"
                     }
@@ -139,7 +141,7 @@ const study = {
             return studies;
 
         } catch (err) {
-            console.log('searchAllStudy Err')
+            console.log('searchStudyAll Err')
             throw err;
         }
     },
@@ -172,20 +174,24 @@ const study = {
     },
     checkPassword: async (studyId, password) => {
         try {
-            const result = await Study.findOne({
+            const study = await Study.findOne({
                 _id: studyId
             }, {
                 _id: 0,
-                password: 1
+                password: 1,
+                salt: 1
             });
-            console.log(result.password)
-            if (result.password === password) {
+
+            const hashedPassword = await encrypt.encryptWithSalt(password, study.salt);
+
+            if ( hashedPassword === study.password ) {
                 return true
             } else {
                 return false
             }
+
         } catch (err) {
-            console.log('getPasswd Err');
+            console.log('checkPasswd Err');
             throw err;
         }
     },
@@ -211,7 +217,7 @@ const study = {
             }
 
         } catch (err) {
-            console.log('searchAllStudy Err')
+            console.log('searchStudyAll Err')
             throw err;
         }
 
