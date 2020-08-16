@@ -10,6 +10,7 @@ module.exports = {
     STUDY_REGISTER_SUCCESS: '스터디 등록 완료',
     STUDY_APPLY_SUCCESS: '스터디 신청 완료',
     STUDY_APPLY_FAIL: '이미 신청한 스터디 입니다.',
+    STUDY_CLOSED_FAIL: '이미 마감된 스터디 입니다.',
     STUDY_EDIT_SUCCESS: '스터디 수정 완료',
 
     MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
