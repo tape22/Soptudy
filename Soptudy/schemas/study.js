@@ -44,6 +44,10 @@ const studySchema = new Schema({
         type: String,
         required: true,       
     },
+    sort:{
+        type: String,
+        required: true,  
+    },
     status:{
         type: Boolean,
         required:true,
