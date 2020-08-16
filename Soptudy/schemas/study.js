@@ -1,63 +1,86 @@
 const mongoose = require('mongoose');
 
-const { Schema } = mongoose;
-const { Types: {ObjectId}} = Schema;
+const {
+    Schema
+} = mongoose;
+const {
+    Types: {
+        ObjectId
+    }
+} = Schema;
 const studySchema = new Schema({
-    icon:{
+    icon: {
         type: String,
-        required : true,
+        required: true,
     },
-    category:{
+    category: {
         type: Number,
         required: true,
     },
-    leader:{
-        type: ObjectId,
-        required: true,
-        ref:'User',
-    },
-    title:{
+    title: {
         type: String,
         required: true,
     },
-    intro:{
+    intro: {
         type: String,
         required: true,
     },
-    content:{
+    content: {
         type: String,
         required: true,
     },
-    schedule:{
+    schedule: {
         type: String,
         required: true,
     },
-    location:{
+    location: {
         type: String,
         required: true,
     },
-    headCount:{
-        type:Number,
-        required:true,
+    headCount: {
+        type: Number,
+        required: true,
     },
-    password:{
+    leaderName: {
         type: String,
-        required: true,       
+        required: true,
     },
-    salt:{
+    leaderPhoneNumber: {
         type: String,
-        required: true,  
+        required: true,
     },
-    status:{
+    leaderPart: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    salt: {
+        type: String,
+        required: true,
+    },
+    status: {
         type: Boolean,
-        required:true,
-    }, 
-    members:[{
-        type:ObjectId,
-        ref:'User',
+        required: true,
+    },
+    members: [{
+        name: {
+            type: String,
+            required: true,
+        },
+        phoneNumber: {
+            type: String,
+            required: true,
+        },
+        part: {
+            type: String,
+            required: true,
+        }
     }],
-},{
+}, {
     versionKey: false
 });
 
-module.exports = mongoose.model('Study',studySchema);
+module.exports = mongoose.model('Study', studySchema);
