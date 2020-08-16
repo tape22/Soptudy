@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 //전체, 카테고리별 스터디 조회 페이지
-router.get('/:category', studyContoller.getStudies)
+router.get('/:category', studyContoller.getStudyByCategory)
 
 //스터디 등록
 router.post('/register', studyContoller.registerStudy)
