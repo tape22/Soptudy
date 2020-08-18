@@ -1,8 +1,8 @@
-var express = require('express');
+var express = require('express')
+const studyContoller = require('../controllers/studyController');
+const { routes } = require('../app');
 var router = express.Router();
 
-/* GET home page. */
-router.use('/main',require('./main/index'))
-router.use('/register',require('./register/index'))
-router.use('/apply',require('./apply/index'))
+router.use('/study',require('./study'));
+
 module.exports = router;
