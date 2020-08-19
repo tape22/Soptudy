@@ -3,7 +3,7 @@
 html,
 body {
   font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif'; 
-  background:white;
+  background: #E0E0E0 0% 0% no-repeat padding-box;
   margin: 0;
   font-weight: 400;
   line-height: 1.5;
@@ -11,10 +11,11 @@ body {
   }
 
 a {
-  font-weight: bolder;
   text-decoration:none !important;
-  color: white;
   font: inherit;
+  color:white;
+  font: Bold 20px SpoqaHanSans;
+  letter-spacing: 0px;
   vertical-align: baseline;
 }
 
@@ -41,34 +42,42 @@ ul{
   align-items: center;
   justify-content: flex-end;
   z-index: 1000;
-  background-color:#5d59c7;
+  background: #5D59C7 0% 0% no-repeat padding-box;
+opacity: 1;
 }
 
-.header-wrap h1{
+.header-wrap p{
   position: relative;
   float: left;
-  height: 100px;
   margin:0;
+  margin-right:20px;
+  margin-top:20px;
 }
 
-.header-wrap h1 #logo{
-  width: 100px !important;
-  margin-right: 30px;
-  bottom: 20px;
+.header-wrap a{
+  font: var(--unnamed-font-style-normal) normal bold 30px/45px var(--unnamed-font-family-spoqahansans);
+text-align: center;
+font: normal normal bold 22px SpoqaHanSans;
+letter-spacing: 0px;
+color: #404040;
+opacity: 1;
 }
 
 
 .button{
-  width: fit-content;
-  font-size: 20px;
   padding: 14px 30px;
-  background:white;
-  border-radius: 36px;
+  background:white 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 10px #00000029;
+  border: 1px solid #FFFFFF;
+opacity: 1;
+  border-radius: 52px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   z-index: 10;
+  width: auto;
+  height: 30px;
 }
 
 /* #menu-item{
@@ -86,7 +95,7 @@ ul{
   flex-direction: column;
   overflow: hidden;
   width: 100%;
-  height: 70vh;
+  height: 840px;
   z-index: 1;
   background-color:#5a59C7;
   /*background: linear-gradient(180deg, #0584BB 35%, #046795 100% #0884bb);*/
@@ -100,24 +109,30 @@ ul{
   flex-direction: column;
   position: relative;
   top:100px;
-  left: 50px;
+  left: 78px;
   z-index: 10;
 }
 
-#main-bg h1{
+#main-bg #title{
   margin-bottom:2px ;
-  font-size: 50px;
-  color:white
+  font: Bold 60px/89px SpoqaHanSans;
+  letter-spacing: 0px;
+color: #F7F7F7;
+opacity: 1;
 }
-#main-bg p{
+#main-bg #m{
   margin: 0;
-  font-size: 20px;
-  color: white;
+  font: 24px/36px SpoqaHanSans;
+  letter-spacing: 0px;
+color: #F7F7F7;
+opacity: 1;
 }
 
+/*메인화면 버튼*/
 #main-bt{
+  padding-top:80px;
   width: 100%;
-  height: fit-content;
+  height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,38 +140,87 @@ ul{
   position: relative;
   top:150px;
   z-index: 10;
+ 
 }
 
 #main-tg{
-  width: 50%;
+  width: 80%;
   height: fit-content;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  flex-flow: row nowrap;
   align-items: center;
   position: relative;
   top:10px;
+
   z-index: 10;
 }
 
-#apply a{
-  color: black;
-}
 #tag{
+  width:110px;
+  max-width: 130px;
   background-color:#5a59C7;
-  border:1px solid white;
+  box-shadow: 0px 10px 10px #00000029;
+  border: 2px solid #FFFFFF;
+  border-radius: 54px;
+  opacity: 1;
+  cursor: pointer; 
+  color:#FFFFFF;
 }
 
+
+#tag:hover{
+  /* box-shadow:200px 0 0 0 white inset; */
+  background-color: white;}
+#tag:hover a{
+  color: #404040 !important;
+}
+
+
+
+/* 두번쨰 화면 */
 #study{
   position: relative;
-  margin-top:-40px;
   z-index: 1000;
+  width: 100%;
 }
 
-.card-container{
-  padding: 0 30px;
+.card_container{
   box-sizing: border-box;
-  width: 50%;
-  max-width: 80%;
+  width: 100%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -200px;
+  display: flex;
+}
+
+.card_list{
+  position: relative;
+  width: 80%;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card_contents{
+  display: flex;
+  justify-content: flex-start;
+  width: 80%;
+}
+
+.card_study{
+  display: flex;
+  flex-direction: column;
+   flex: none;
+  flex-basis: 33.33%;
+  margin-top: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  background: #EEEFF0 0% 0% no-repeat padding-box;
+box-shadow: 0px 10px 10px #00000029;
+border-radius: 48px;
+opacity: 1;
 }
 
