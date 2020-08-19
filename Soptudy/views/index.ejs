@@ -9,7 +9,7 @@
 
     <header class="header">
     <div class="header-wrap">
-       <h1><img id="logo" src="/images/logo.png" alt></h1>l
+      <p class="button" id="apply"><a href="./opened.ejs">스터디 개설 바로가기 🤓</a></p>
     </div>
 
     <!-- <nav class="menu-bar">
@@ -29,8 +29,8 @@
       </div>
 
       <div id="main-bt">
-        <p class="button" id="apply"><a href="">스터디 개설 바로가기 🤓</a></p><br>
         <div id="main-tg">
+          <p class="button" id="tag"><a href="">전체보기👀</a></p><br>
           <p class="button" id="tag"><a href="">개발👩‍💻</a></p><br>
           <p class="button" id="tag"><a href="">디자인영상🧑‍🎨</a></p><br>
           <p class="button" id="tag"><a href="">운동🏃‍♀️</a></p><br>
@@ -38,16 +38,29 @@
           <p class="button" id="tag"><a href="">기타🎸</a></p><br>
         </div>
       </div>
+    
     </section>
 
-  
-    <!-- 스터디 카드 화면(1) -->
-    <section id="study" style="width:100%;height: 100vh;background: #E0E0E0 0% 0% no-repeat padding-box;
-    opacity: 1;;">
-      <div class="card-container">
-    
+    <section id="study">
+      <div class="card_container">
+        <ul class="card_list">
+          <div class="card_contents">
+             <li class="card_study">
+            <p class="icon">👧</p>
+            <p class="category">#개발</p>
+            <p class="title">채원이의 서버 뿌시기</p>
+            <p class="leader">김채원</p>
+          </li>
+          </div>
+        </ul>
       </div>
     </section>
+ 
+    <!-- <section id="study" style="width:100%;height: 100vh;background: #E0E0E0 0% 0% no-repeat padding-box;
+    opacity: 1;">
+      카드 모양 만들어놓고,,, 3개 단위마다 줄이 바뀌는 것을 if... 
+     
+    </section> -->
 
   </body>
 </html>
