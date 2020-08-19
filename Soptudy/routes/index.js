@@ -1,4 +1,6 @@
-var express = require('express');
+var express = require('express')
+const studyContoller = require('../controllers/studyController');
+const { routes } = require('../app');
 var router = express.Router();
 
 /* GET home page. */
@@ -10,4 +12,6 @@ router.get('/opened.ejs', function (req, res, next) {
   res.render('opened', { title: '스터디 개설하기' });
 });
 
+
 module.exports = router;
+
