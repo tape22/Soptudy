@@ -9,7 +9,7 @@
 
     <header class="header">
     <div class="header-wrap">
-      <p class="button" id="apply"><a href="./opened.ejs">스터디 개설 바로가기 🤓</a></p>
+      <p class="button" id="apply"><a href="./popup.ejs">스터디 개설 바로가기 🤓</a></p>
     </div>
 
     <!-- <nav class="menu-bar">
@@ -41,26 +41,26 @@
     
     </section>
 
-    <section id="study">
+    <section class="study">
       <div class="card_container">
+        
         <ul class="card_list">
           <div class="card_contents">
              <li class="card_study">
-            <p class="icon">👧</p>
-            <p class="category">#개발</p>
-            <p class="title">채원이의 서버 뿌시기</p>
-            <p class="leader">김채원</p>
+               <a href="" data-toggle="modal" data-target=".member">
+               <div class="member"><img class="man" src="/images/man1.png" alt><p class="memberCnt">3/5</p></div>
+               <div class="study_contents"><p class="icon">👩‍💻</p><p class="category">#개발</p><p class="title">채원이의 서버 뿌시기</p><p class="leader">김채원</p></div>
+              </a>
           </li>
           </div>
         </ul>
       </div>
     </section>
  
-    <!-- <section id="study" style="width:100%;height: 100vh;background: #E0E0E0 0% 0% no-repeat padding-box;
-    opacity: 1;">
-      카드 모양 만들어놓고,,, 3개 단위마다 줄이 바뀌는 것을 if... 
+    <!-- <section id="nn" style="width:100%;height: 100vh;background: #E0E0E0 0% 0% no-repeat padding-box;
+    opacity: 1;"> -->
      
-    </section> -->
+    </section>
 
   </body>
 </html>
