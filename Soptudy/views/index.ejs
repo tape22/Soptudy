@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
   </head>
@@ -43,15 +43,17 @@
 
     <section class="study">
       <div class="card_container">
-        
+        <!-- ul 자체를 ...-->
         <ul class="card_list">
           <div class="card_contents">
+            <%for (var i=0 ; i<dum.length; i++) { %>
              <li class="card_study">
                <a href="" data-toggle="modal" data-target=".member">
                <div class="member"><img class="man" src="/images/man1.png" alt><p class="memberCnt">3/5</p></div>
-               <div class="study_contents"><p class="icon">👩‍💻</p><p class="category">#개발</p><p class="title">채원이의 서버 뿌시기</p><p class="leader">김채원</p></div>
+               <div class="study_contents"><p class="icon"><%=dum[i].icon%></p><p class="category">#<%=dum[i].category%></p><p class="title"><%=dum[i].title%></p><p class="leader"><%=dum[i].name%></p></div>
               </a>
           </li>
+          <% } %>
           </div>
         </ul>
       </div>
